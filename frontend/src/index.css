@@ -1,0 +1,128 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Leaflet resets (must come after tailwind) ── */
+.leaflet-container { width: 100%; height: 100%; z-index: 0; }
+.leaflet-tile-pane { filter: brightness(0.45) saturate(0.6) hue-rotate(180deg); }
+
+/* Leaflet popup dark override */
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip {
+  background: #0d1117 !important;
+  color: #e2eaf3 !important;
+  border: 1px solid #1e2d3d !important;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6) !important;
+  border-radius: 4px !important;
+}
+.leaflet-popup-content { margin: 0 !important; }
+.leaflet-popup-close-button { color: #7a92a8 !important; top: 6px !important; right: 8px !important; }
+
+/* ── Design tokens — on BOTH :root AND html so they always resolve ── */
+:root, html {
+  --bg-void:       #080c10;
+  --bg-panel:      #0d1117;
+  --bg-card:       #111820;
+  --bg-card-hover: #161f2a;
+  --border:        #1e2d3d;
+  --border-bright: #2a4060;
+  --text-primary:  #e2eaf3;
+  --text-secondary:#7a92a8;
+  --text-dim:      #3d5166;
+  --accent-amber:  #f59e0b;
+  --accent-red:    #ef4444;
+  --accent-green:  #22c55e;
+  --accent-blue:   #3b82f6;
+  --accent-teal:   #14b8a6;
+  --grid-color:    rgba(30, 45, 61, 0.5);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: var(--bg-void);
+  color: var(--text-primary);
+  font-family: 'IBM Plex Mono', 'Courier New', monospace;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* ── Grid background texture ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keep everything above the grid */
+#root { position: relative; z-index: 1; }
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg-void); }
+::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 2px; }
+
+/* ── Animations ── */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.25; }
+}
+@keyframes slide-in-right {
+  from { transform: translateX(16px); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+  50%       { box-shadow: 0 0 0 8px rgba(239, 68, 68, 0); }
+}
+
+.animate-slide-in { animation: slide-in-right 0.3s ease forwards; }
+.animate-count    { animation: count-up 0.5s ease forwards; }
+.blink            { animation: blink 1.4s ease-in-out infinite; }
+.spin             { animation: spin 1s linear infinite; }
+
+/* ── Input base style (used across pages) ── */
+.vg-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  color: var(--text-primary);
+  font-size: 12px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+.vg-input:focus { border-color: var(--accent-amber); }
+.vg-input::placeholder { color: var(--text-dim); }
+
+/* Fix Leaflet z-index war with our sticky navbar */
+.leaflet-top,
+.leaflet-bottom { z-index: 400 !important; }
