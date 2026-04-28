@@ -298,5 +298,4 @@ Total demo time: **~4 minutes**
 Built at **[Pivot Lab]** — April 2026
 
 *"The last mile is not a logistics problem. It's a trust problem."*
-#   V a n G a u r d  
- 
+#
